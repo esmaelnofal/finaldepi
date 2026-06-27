@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Moon, Sun, Clock, Flag, ChevronLeft, ChevronRight, LayoutGrid } from 'lucide-react';
 import { MOCK_QUESTIONS } from '../data/mockData';
+
 const [timeLeft, setTimeLeft] = useState(105 * 60); // 1h 45m in seconds
 
 useEffect(() => {
