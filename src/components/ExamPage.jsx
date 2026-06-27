@@ -1,6 +1,22 @@
 import { useState } from 'react';
 import { Moon, Sun, Clock, Flag, ChevronLeft, ChevronRight, LayoutGrid } from 'lucide-react';
 import { MOCK_QUESTIONS } from '../data/mockData';
+const [timeLeft, setTimeLeft] = useState(105 * 60); // 1h 45m in seconds
+
+useEffect(() => {
+  if (timeLeft <= 0) return;
+  const timer = setInterval(() => {
+    setTimeLeft((prev) => prev - 1);
+  }, 1000);
+  return () => clearInterval(timer);
+}, [timeLeft]);
+
+const formatTime = (seconds) => {
+  const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
+  const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  return `${h}:${m}:${s}`;
+};
 
 const ExamPage = ({ toggleDarkMode, isDarkMode, onBack }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -49,9 +65,9 @@ const ExamPage = ({ toggleDarkMode, isDarkMode, onBack }) => {
             {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
           </button>
           <div className="flex items-center gap-2 text-red-500 bg-red-50 dark:bg-red-900/20 px-4 py-1.5 rounded-lg font-medium">
-            <Clock size={18} />
-            <span>01:45:22</span>
-          </div>
+  <Clock size={18} />
+  <span>{formatTime(timeLeft)}</span>
+</div>
           <button
             onClick={onBack}
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors shadow-sm"
